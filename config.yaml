@@ -1,5 +1,2 @@
-title: "Namaz Vakitleri"
+title: "NestJS Template"
 port: 8080
-
-tats:
-  sad: "Sad"
