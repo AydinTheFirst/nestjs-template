@@ -1,12 +1,12 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
-import { Request, Response, NextFunction } from "express";
+import { Handler } from "express";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private prisma: PrismaService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  use: Handler = async (req, _res, next) => {
     let token = req.headers["authorization"];
 
     if (!token) return next();
@@ -28,9 +28,8 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (!user) return next();
 
-    // Kullanıcıyı request nesnesine ekleyin
     req.user = user;
 
     next();
-  }
+  };
 }

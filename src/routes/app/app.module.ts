@@ -27,6 +27,6 @@ const routes = Object.values(Routes);
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware, AuthMiddleware);
+    consumer.apply(LoggerMiddleware, AuthMiddleware).forRoutes("*");
   }
 }

@@ -14,14 +14,7 @@ export class AuthService {
   login = async (body: LoginDto) => {
     const user = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          {
-            username: body.username,
-          },
-          {
-            email: body.username,
-          },
-        ],
+        OR: [{ username: body.username }, { email: body.username }],
       },
     });
 
@@ -44,20 +37,15 @@ export class AuthService {
   };
 
   register = async (body: RegisterDto) => {
-    const isExist = this.prisma.user.findFirst({
+    const isExist = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          {
-            username: body.username,
-          },
-          {
-            email: body.email,
-          },
-        ],
+        OR: [{ username: body.username }, { email: body.email }],
       },
     });
 
-    if (isExist) throw new BadRequestException("User already exists");
+    if (isExist) {
+      throw new BadRequestException("User already exists");
+    }
 
     const hashedPassword = await argon.hash(body.password);
 
