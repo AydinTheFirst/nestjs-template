@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ThrottlerModule } from "@nestjs/throttler";
-import { LoggerMiddleware } from "@/middlewares";
+import { LoggerMiddleware, AuthMiddleware } from "@/middlewares";
 import { MulterModule } from "@nestjs/platform-express";
 import { PrismaModule } from "@/prisma";
 
@@ -27,6 +27,6 @@ const routes = Object.values(Routes);
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware);
+    consumer.apply(LoggerMiddleware, AuthMiddleware);
   }
 }
