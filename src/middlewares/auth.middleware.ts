@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { Handler } from "express";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "@/prisma";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
