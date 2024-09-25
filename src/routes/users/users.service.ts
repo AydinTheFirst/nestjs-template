@@ -1,10 +1,18 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateUserDto, UpdateUserDto } from "./users.dto";
+
 import { PrismaService } from "@/prisma";
+
+import { CreateUserDto, UpdateUserDto } from "./users.dto";
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  create = async (createUserDto: CreateUserDto) => {
+    const user = await this.prisma.user.create({
+      data: createUserDto,
+    });
+
+    return user;
+  };
   findAll = async () => {
     const users = await this.prisma.user.findMany();
     return users;
@@ -15,33 +23,6 @@ export class UsersService {
       where: {
         id: id,
       },
-    });
-
-    return user;
-  };
-
-  create = async (createUserDto: CreateUserDto) => {
-    const user = await this.prisma.user.create({
-      data: createUserDto,
-    });
-
-    return user;
-  };
-
-  update = async (id: string, updateUserDto: UpdateUserDto) => {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!user) throw new NotFoundException("User not found");
-
-    await this.prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: updateUserDto,
     });
 
     return user;
@@ -64,4 +45,25 @@ export class UsersService {
 
     return user;
   };
+
+  update = async (id: string, updateUserDto: UpdateUserDto) => {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    await this.prisma.user.update({
+      data: updateUserDto,
+      where: {
+        id: id,
+      },
+    });
+
+    return user;
+  };
+
+  constructor(private prisma: PrismaService) {}
 }

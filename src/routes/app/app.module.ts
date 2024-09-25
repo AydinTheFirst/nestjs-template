@@ -1,11 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MulterModule } from "@nestjs/platform-express";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ThrottlerModule } from "@nestjs/throttler";
-import { LoggerMiddleware, AuthMiddleware } from "@/middlewares";
-import { MulterModule } from "@nestjs/platform-express";
-import { PrismaModule } from "@/prisma";
 
 import { multerConfig, serveStaticConfig, throtthlerConfig } from "@/config";
+import { AuthMiddleware, LoggerMiddleware } from "@/middlewares";
+import { PrismaModule } from "@/prisma";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -15,6 +15,7 @@ import * as Routes from "@/routes";
 const routes = Object.values(Routes);
 
 @Module({
+  controllers: [AppController],
   imports: [
     ...routes,
     PrismaModule,
@@ -22,7 +23,6 @@ const routes = Object.values(Routes);
     ServeStaticModule.forRoot(serveStaticConfig),
     MulterModule.register(multerConfig),
   ],
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {

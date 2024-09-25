@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Request } from "express";
 import { Observable } from "rxjs";
 
@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  ): boolean | Observable<boolean> | Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
 
     return request.user ? true : false;

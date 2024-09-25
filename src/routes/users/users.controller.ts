@@ -1,23 +1,31 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   UseGuards,
 } from "@nestjs/common";
-import { UsersService } from "./users.service";
-import { CreateUserDto, UpdateUserDto } from "./users.dto";
-import { AuthGuard, RolesGuard } from "@/guards";
+
 import { Roles } from "@/decorators";
 import { UserRole } from "@/enums";
+import { AuthGuard, RolesGuard } from "@/guards";
+
+import { CreateUserDto, UpdateUserDto } from "./users.dto";
+import { UsersService } from "./users.service";
 
 @Controller("users")
 @UseGuards(AuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  @Roles([UserRole.Admin])
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
+  }
 
   @Get()
   @Roles([UserRole.Admin])
@@ -31,21 +39,15 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Post()
+  @Delete(":id")
   @Roles([UserRole.Admin])
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  remove(@Param("id") id: string) {
+    return this.usersService.remove(id);
   }
 
   @Patch(":id")
   @Roles([UserRole.Admin])
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
-  }
-
-  @Delete(":id")
-  @Roles([UserRole.Admin])
-  remove(@Param("id") id: string) {
-    return this.usersService.remove(id);
   }
 }

@@ -3,14 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { LoginDto, RegisterDto } from "./auth.dto";
 import argon from "argon2";
+
 import { PrismaService } from "@/prisma";
+
+import { LoginDto, RegisterDto } from "./auth.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
-
   login = async (body: LoginDto) => {
     const user = await this.prisma.user.findFirst({
       where: {
@@ -25,8 +25,8 @@ export class AuthService {
 
     const token = await this.prisma.token.create({
       data: {
-        userId: user.id,
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
+        userId: user.id,
       },
     });
 
@@ -58,4 +58,6 @@ export class AuthService {
 
     return user;
   };
+
+  constructor(private prisma: PrismaService) {}
 }
