@@ -2,7 +2,7 @@ import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import "dotenv/config";
 
-import config, { swagger } from "@/config";
+import { config, swagger } from "@/config";
 import { AppModule } from "@/routes/app";
 
 async function bootstrap() {
@@ -16,11 +16,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
-  await app.listen(config.port, () => {
-    Logger.log(
-      `Server running on http://localhost:${config.port}`,
-      "Bootstrap"
-    );
-  });
+  await app.listen(config.port);
+
+  Logger.log(`Server running on ${await app.getUrl()}`, "Bootstrap");
 }
 bootstrap();
