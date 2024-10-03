@@ -1,6 +1,6 @@
 import { ThrottlerModuleOptions } from "@nestjs/throttler";
 
-export const throtthlerConfig: ThrottlerModuleOptions = [
+export const throttlerConfig: ThrottlerModuleOptions = [
   {
     limit: 3,
     name: "short",

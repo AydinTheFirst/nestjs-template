@@ -9,8 +9,8 @@ import {
 } from "@nestjs/common";
 import { User } from "@prisma/client";
 
-import { GetUser } from "@/decorators";
-import { AuthGuard } from "@/guards";
+import { GetUser } from "@/common/decorators";
+import { AuthGuard } from "@/common/guards";
 
 import { LoginDto, RegisterDto } from "./auth.dto";
 import { AuthService } from "./auth.service";

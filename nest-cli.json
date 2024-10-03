@@ -3,10 +3,10 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "generateOptions": {
-    "spec": false,
-    "baseDir": "src/routes"
+    "spec": false
   },
   "compilerOptions": {
+    "plugins": ["@nestjs/swagger"],
     "deleteOutDir": true,
     "builder": "swc",
     "typeCheck": true

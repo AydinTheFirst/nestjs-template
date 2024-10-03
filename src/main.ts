@@ -1,7 +1,8 @@
-import { Logger, ValidationPipe } from "@nestjs/common";
+import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import "dotenv/config";
 
+import { CustomValidationPipe } from "@/common/pipes";
 import { config, swagger } from "@/config";
 import { AppModule } from "@/routes/app";
 
@@ -12,12 +13,16 @@ async function bootstrap() {
 
   app.setGlobalPrefix("api");
 
-  swagger(app);
+  await swagger(app);
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+  app.useGlobalPipes(
+    new CustomValidationPipe({ transform: true, whitelist: true })
+  );
 
   await app.listen(config.port);
 
-  Logger.log(`Server running on ${await app.getUrl()}`, "Bootstrap");
+  const url = (await app.getUrl()).replace("[::1]", "localhost");
+
+  Logger.log(`Server running on ${url}`, "Bootstrap");
 }
 bootstrap();
