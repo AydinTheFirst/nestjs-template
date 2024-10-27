@@ -27,6 +27,15 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (!user) return next();
 
+    if (!tokenDoc.userAgent) {
+      await this.prisma.token.update({
+        data: {
+          userAgent: req.headers["user-agent"],
+        },
+        where: { id: tokenDoc.id },
+      });
+    }
+
     req.user = user;
 
     next();

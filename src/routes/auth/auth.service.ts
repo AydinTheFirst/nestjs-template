@@ -11,10 +11,16 @@ import { LoginDto, RegisterDto } from "./auth.dto";
 
 @Injectable()
 export class AuthService {
-  login = async (body: LoginDto) => {
+  constructor(private prisma: PrismaService) {}
+
+  async login(body: LoginDto) {
     const user = await this.prisma.user.findFirst({
       where: {
-        OR: [{ username: body.username }, { email: body.username }],
+        OR: [
+          { username: body.username },
+          { email: body.username },
+          { phone: body.username },
+        ],
       },
     });
 
@@ -34,12 +40,16 @@ export class AuthService {
       ...user,
       token: token.token,
     };
-  };
+  }
 
-  register = async (body: RegisterDto) => {
+  async register(body: RegisterDto) {
     const isExist = await this.prisma.user.findFirst({
       where: {
-        OR: [{ username: body.username }, { email: body.email }],
+        OR: [
+          { username: body.username },
+          { email: body.email },
+          { phone: body.phone },
+        ],
       },
     });
 
@@ -57,7 +67,5 @@ export class AuthService {
     });
 
     return user;
-  };
-
-  constructor(private prisma: PrismaService) {}
+  }
 }
