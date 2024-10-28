@@ -11,22 +11,31 @@ import {
   serveStaticConfig,
   throttlerConfig,
 } from "@/config";
+import { AwsModule, NetgsmModule } from "@/modules";
 import { PrismaModule } from "@/prisma";
+import { AppRoutes } from "@/routes";
+import { WebsocketModule } from "@/websocket";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
-// Routes
-import * as Routes from "@/routes";
-import { WebsocketModule } from "@/websocket";
+const { AWS_BUCKET, NETGSM_USER, SMTP_USER } = process.env;
+
+const modules = () => {
+  const appModules = [];
+  if (SMTP_USER) appModules.push(MailerModule.forRoot(mailerConfig));
+  if (AWS_BUCKET) appModules.push(AwsModule);
+  if (NETGSM_USER) appModules.push(NetgsmModule);
+  return appModules;
+};
 
 @Module({
   controllers: [AppController],
   imports: [
-    ...Object.values(Routes),
+    ...AppRoutes,
     PrismaModule,
     WebsocketModule,
-    MailerModule.forRoot(mailerConfig),
+    ...modules(),
     ThrottlerModule.forRoot(throttlerConfig),
     ServeStaticModule.forRoot(serveStaticConfig),
     MulterModule.register(multerConfig),

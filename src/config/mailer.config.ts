@@ -3,7 +3,7 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
 
 export const mailerConfig: MailerOptions = {
   defaults: {
-    from: `"nest-modules" <${process.env.MAILER_USER}>`,
+    from: `"nest-modules" <${process.env.SMTP_USER}>`,
   },
   template: {
     adapter: new HandlebarsAdapter(),
@@ -14,11 +14,11 @@ export const mailerConfig: MailerOptions = {
   },
   transport: {
     auth: {
-      pass: process.env.MAILER_PASS,
-      user: process.env.MAILER_USER,
+      pass: process.env.SMTP_PASS,
+      user: process.env.SMTP_USER,
     },
-    host: process.env.MAILER_HOST,
-    port: +process.env.MAILER_PORT || 465,
+    host: process.env.SMTP_HOST,
+    port: +process.env.SMTP_PORT || 465,
     secure: true,
   },
   verifyTransporters: true,

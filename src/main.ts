@@ -2,9 +2,9 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import "dotenv/config";
 
+import { AppModule } from "@/app";
 import { CustomValidationPipe } from "@/common/pipes";
 import { config, swagger } from "@/config";
-import { AppModule } from "@/routes/app";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
