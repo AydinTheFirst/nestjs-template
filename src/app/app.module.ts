@@ -4,7 +4,7 @@ import { MulterModule } from "@nestjs/platform-express";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ThrottlerModule } from "@nestjs/throttler";
 
-import { AuthMiddleware, LoggerMiddleware } from "@/common/middlewares";
+import { LoggerMiddleware } from "@/common/middlewares";
 import {
   mailerConfig,
   multerConfig,
@@ -44,6 +44,6 @@ const modules = () => {
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware, AuthMiddleware).forRoutes("*");
+    consumer.apply(LoggerMiddleware).forRoutes("*");
   }
 }

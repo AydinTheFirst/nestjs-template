@@ -19,7 +19,7 @@ import { AuthService } from "./auth.service";
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get("me")
+  @Get("@me")
   @UseGuards(AuthGuard)
   getMe(@GetUser() user: User) {
     return user;
