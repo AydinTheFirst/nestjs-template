@@ -23,6 +23,6 @@ async function bootstrap() {
 
   const url = (await app.getUrl()).replace("[::1]", "localhost");
 
-  Logger.log(`Server running on ${url}`, "Bootstrap");
+  Logger.debug(`Server running on ${url}`, "Bootstrap");
 }
 bootstrap();

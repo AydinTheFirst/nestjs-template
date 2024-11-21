@@ -13,31 +13,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-}
-
 model User {
-  id          String   @id @default(uuid())
-  username    String   @unique @default(cuid())
-  email       String   @unique
+  id          String @id @default(uuid())
+  username    String @unique @default(cuid())
+  email       String @unique
   displayName String
   password    String
-  roles       Role[]   @default([USER])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  roles UserRole[] @default([USER])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
 model Token {
-  id        String   @id @default(uuid())
-  userId    String
-  token     String   @default(cuid())
+  id     String @id @default(uuid())
+  token  String @unique @default(cuid())
+  userId String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   expiresAt DateTime
 
   @@map("tokens")
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }

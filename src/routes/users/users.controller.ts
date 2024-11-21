@@ -11,14 +11,13 @@ import {
 
 import { Roles } from "@/common/decorators";
 import { AuthGuard, RolesGuard } from "@/common/guards";
-import { Role } from "@/prisma";
 
 import { CreateUserDto, UpdateUserDto } from "./users.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
 @UseGuards(AuthGuard, RolesGuard)
-@Roles([Role.ADMIN])
+@Roles(["ADMIN"])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
