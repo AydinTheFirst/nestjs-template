@@ -19,12 +19,12 @@ import { WebsocketModule } from "@/websocket";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
-const { AWS_BUCKET, NETGSM_USER, SMTP_USER } = process.env;
+const { AWS_BUCKET_NAME, NETGSM_USER, SMTP_USERCODE } = process.env;
 
 const modules = () => {
   const appModules = [];
-  if (SMTP_USER) appModules.push(MailerModule.forRoot(mailerConfig));
-  if (AWS_BUCKET) appModules.push(AwsModule);
+  if (SMTP_USERCODE) appModules.push(MailerModule.forRoot(mailerConfig));
+  if (AWS_BUCKET_NAME) appModules.push(AwsModule);
   if (NETGSM_USER) appModules.push(NetgsmModule);
   return appModules;
 };
