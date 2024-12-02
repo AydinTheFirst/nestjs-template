@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import argon from "argon2";
 
 import { PrismaService } from "@/prisma";
 
@@ -6,19 +7,24 @@ import { CreateUserDto, UpdateUserDto } from "./users.dto";
 
 @Injectable()
 export class UsersService {
-  create = async (createUserDto: CreateUserDto) => {
+  constructor(private prisma: PrismaService) {}
+
+  async create(createUserDto: CreateUserDto) {
+    createUserDto.password = await argon.hash(createUserDto.password);
+
     const user = await this.prisma.user.create({
       data: createUserDto,
     });
 
     return user;
-  };
-  findAll = async () => {
+  }
+
+  async findAll() {
     const users = await this.prisma.user.findMany();
     return users;
-  };
+  }
 
-  findOne = async (id: string) => {
+  async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -26,9 +32,9 @@ export class UsersService {
     });
 
     return user;
-  };
+  }
 
-  remove = async (id: string) => {
+  async remove(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -44,9 +50,9 @@ export class UsersService {
     });
 
     return user;
-  };
+  }
 
-  update = async (id: string, updateUserDto: UpdateUserDto) => {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -54,6 +60,10 @@ export class UsersService {
     });
 
     if (!user) throw new NotFoundException("User not found");
+
+    if (updateUserDto.password) {
+      updateUserDto.password = await argon.hash(updateUserDto.password);
+    }
 
     await this.prisma.user.update({
       data: updateUserDto,
@@ -63,7 +73,5 @@ export class UsersService {
     });
 
     return user;
-  };
-
-  constructor(private prisma: PrismaService) {}
+  }
 }
