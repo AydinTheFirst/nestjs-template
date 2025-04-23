@@ -1,3 +1,5 @@
+import { Roles } from "@/common/decorators";
+import { User } from "@/prisma";
 import {
   CanActivate,
   ExecutionContext,
@@ -6,15 +8,8 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 
-import { Roles } from "@/common/decorators";
-import { User } from "@/prisma";
-
 @Injectable()
 export class RolesGuard implements CanActivate {
-  matchRoles = (roles: string[], userRoles: string[]): boolean => {
-    return roles.some((role) => userRoles.includes(role));
-  };
-
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -40,4 +35,8 @@ export class RolesGuard implements CanActivate {
 
     return isAllowed;
   }
+
+  matchRoles = (roles: string[], userRoles: string[]): boolean => {
+    return roles.some((role) => userRoles.includes(role));
+  };
 }

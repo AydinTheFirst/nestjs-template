@@ -1,21 +1,16 @@
+import { Request } from "express";
+
+import { PrismaService } from "@/prisma";
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Request } from "express";
-
-import { PrismaService } from "@/prisma";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private prisma: PrismaService) {}
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
-  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
@@ -47,5 +42,10 @@ export class AuthGuard implements CanActivate {
     request.user = user;
 
     return true;
+  }
+
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(" ") ?? [];
+    return type === "Bearer" ? token : undefined;
   }
 }

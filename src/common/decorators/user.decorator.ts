@@ -1,5 +1,6 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Request } from "express";
+
+import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
 // @GetUser() decorator
 export const GetUser = createParamDecorator(

@@ -1,6 +1,7 @@
+import { Server } from "socket.io";
+
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
-import { Server } from "socket.io";
 
 @Injectable()
 @WebSocketGateway({
@@ -10,10 +11,10 @@ import { Server } from "socket.io";
   transports: ["websocket"],
 })
 export class WebsocketGateway implements OnModuleInit {
-  private connectedSockets = new Map<string, any>();
-
   @WebSocketServer()
   io: Server;
+
+  private connectedSockets = new Map<string, any>();
 
   onModuleInit() {
     this.io.on("connection", (socket) => {

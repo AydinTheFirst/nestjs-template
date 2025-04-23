@@ -1,3 +1,5 @@
+import { GetUser } from "@/common/decorators";
+import { AuthGuard } from "@/common/guards";
 import {
   Body,
   Controller,
@@ -8,9 +10,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { User } from "@prisma/client";
-
-import { GetUser } from "@/common/decorators";
-import { AuthGuard } from "@/common/guards";
 
 import { LoginDto, RegisterDto } from "./auth.dto";
 import { AuthService } from "./auth.service";

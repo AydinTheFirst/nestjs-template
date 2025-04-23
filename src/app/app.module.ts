@@ -1,9 +1,3 @@
-import { MailerModule } from "@nestjs-modules/mailer";
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { MulterModule } from "@nestjs/platform-express";
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { ThrottlerModule } from "@nestjs/throttler";
-
 import { LoggerMiddleware } from "@/common/middlewares";
 import {
   mailerConfig,
@@ -15,6 +9,11 @@ import { AwsModule, NetgsmModule } from "@/modules";
 import { PrismaModule } from "@/prisma";
 import { AppRoutes } from "@/routes";
 import { WebsocketModule } from "@/websocket";
+import { MailerModule } from "@nestjs-modules/mailer";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MulterModule } from "@nestjs/platform-express";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { ThrottlerModule } from "@nestjs/throttler";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -44,6 +43,6 @@ const modules = () => {
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes("*");
+    consumer.apply(LoggerMiddleware).forRoutes("{*splat}");
   }
 }

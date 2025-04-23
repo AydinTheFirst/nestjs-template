@@ -1,6 +1,7 @@
+import crypto from "node:crypto";
+
 import { S3 } from "@aws-sdk/client-s3";
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import crypto from "node:crypto";
 
 @Injectable()
 export class S3Service implements OnModuleInit {

@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
 import argon from "argon2";
 
 import { PrismaService } from "@/prisma";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 import { CreateUserDto, UpdateUserDto } from "./users.dto";
 

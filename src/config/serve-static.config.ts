@@ -1,5 +1,6 @@
-import { ServeStaticModuleOptions } from "@nestjs/serve-static";
 import { join } from "path";
+
+import { ServeStaticModuleOptions } from "@nestjs/serve-static";
 
 const clientDist = join(process.cwd(), "..", "client", "dist");
 

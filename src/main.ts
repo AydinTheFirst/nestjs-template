@@ -1,10 +1,11 @@
-import { Logger } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import "dotenv/config";
-
 import { AppModule } from "@/app";
 import { CustomValidationPipe } from "@/common/pipes";
+
+import "dotenv/config";
+
 import { config, swagger } from "@/config";
+import { Logger } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

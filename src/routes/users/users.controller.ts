@@ -1,3 +1,5 @@
+import { Roles } from "@/common/decorators";
+import { AuthGuard, RolesGuard } from "@/common/guards";
 import {
   Body,
   Controller,
@@ -9,15 +11,12 @@ import {
   UseGuards,
 } from "@nestjs/common";
 
-import { Roles } from "@/common/decorators";
-import { AuthGuard, RolesGuard } from "@/common/guards";
-
 import { CreateUserDto, UpdateUserDto } from "./users.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
-@UseGuards(AuthGuard, RolesGuard)
 @Roles(["ADMIN"])
+@UseGuards(AuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

@@ -1,11 +1,11 @@
+import argon from "argon2";
+
+import { PrismaService, UserRole } from "@/prisma";
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import argon from "argon2";
-
-import { PrismaService, UserRole } from "@/prisma";
 
 import { LoginDto, RegisterDto } from "./auth.dto";
 
