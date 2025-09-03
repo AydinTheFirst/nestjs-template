@@ -37,7 +37,9 @@ export class UsersService {
       }
     }
 
-    createUserDto.password = await argon2.hash(createUserDto.password);
+    if (createUserDto.password) {
+      createUserDto.password = await argon2.hash(createUserDto.password);
+    }
 
     const user = await this.prisma.user.create({
       data: createUserDto,

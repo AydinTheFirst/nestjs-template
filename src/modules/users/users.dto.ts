@@ -8,8 +8,13 @@ export class CreateUserDto {
   @IsString()
   email: string;
 
+  @IsOptional()
   @IsString()
-  password: string;
+  googleId?: string;
+
+  @IsOptional()
+  @IsString()
+  password?: string;
 
   @IsOptional()
   @IsPhoneNumber()
